@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1.4
 
 # Versions
-FROM dunglas/frankenphp:1-alpine AS frankenphp_upstream
+FROM dunglas/frankenphp:latest-alpine AS frankenphp_upstream
 FROM composer/composer:2-bin AS composer_upstream
 
 
@@ -33,6 +33,9 @@ RUN set -eux; \
 	;
 
 ###> recipes ###
+###> doctrine/doctrine-bundle ###
+RUN install-php-extensions pdo_pgsql
+###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/

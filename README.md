@@ -1,48 +1,47 @@
-# Symfony Docker
+# FFW Backend Developer Test
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+<strike>HIDDEN</strike>
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+## Notes:
+* Assuming the scale of the task is smaller
+  * I have used a `api-platform/core`.
+* As I haven't worked with symfony for some time already. I have tried to keep it simple. 
+* I could have created a entity repository and controllers, but they would be doing the exact same thing with addition code.
+* As I haven't worked with Symfony for quite sometime so there was a bigger learning curve as it has changed a lot.
+* **Time Consumed:** ~ 04:45
+* I have added only 2 simple test cases to avoid extra time consumption.
 
-## Getting Started
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull always -d --wait` to start the project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+## Files to assess:
 
-## Features
+* [src/Entity/Note.php](https://github.com/mubasharkk/ffw-task/blob/main/src/Entity/Note.php)
 
-* Production, development and CI ready
-* Just 1 service by default
-* Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://github.com/dunglas/frankenphp/blob/main/docs/worker.md) (automatically enabled in prod mode)
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and prod)
-* HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-* Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Super-readable configuration
+## Setup & Starting Docker
 
-**Enjoy!**
+**Important:** !! Docker must be installed !!
 
-## Docs
+Clone the repository and run the following command:
 
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Troubleshooting](docs/troubleshooting.md)
+```
+docker-compose up -d --build
 
-## License
+```
 
-Symfony Docker is available under the MIT License.
+To tun DB migrations
 
-## Credits
+```
+docker exec -it ffw-task-php-1 php bin/console doctrine:schema:update --force
+```
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+
+---
+
+## API Documentation
+
+[https://localhost/api](https://localhost/api)
+
+### Running tests
+
+```
+docker exec -it ffw-task-php-1 php bin/phpunit
+```
