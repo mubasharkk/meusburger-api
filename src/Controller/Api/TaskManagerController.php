@@ -46,10 +46,8 @@ class TaskManagerController extends AbstractController
     }
 
     #[Route('/api/tasks', name: 'create_api_task_manager', methods: ['POST'])]
-    public function store(
-        CreateTaskRequest $request,
-        ValidatorInterface $validator
-    ) {
+    public function store(CreateTaskRequest $request)
+    {
         $errors = $request->validate();
         if (count($errors['errors'])) {
             return $this->json($errors, Response::HTTP_BAD_REQUEST);
@@ -73,6 +71,40 @@ class TaskManagerController extends AbstractController
     {
         $this->repository->delete($task);
         $this->json([]);
+    }
+
+    #[Route('/api/tasks/{id}', name: 'update_api_task_manager', methods: ['PUT'])]
+    public function update(
+        Task               $task,
+        Request            $request,
+        ValidatorInterface $validator
+    ) {
+        $data = $request->request->all();
+
+        $task->title = $data['title'] ?? $task->title;
+        $task->description = $data['description'] ?? $task->description;
+        $task->due_date = $data['due_date'] ?? $task->due_date;
+        $task->status = $data['status'] ?? $task->status;
+        $task->tags = $data['tags'] ?? $task->tags;
+
+        $errors = $validator->validate($task);
+
+        if ($errors->count()) {
+            $messages = [];
+            /** @var \Symfony\Component\Validator\ConstraintViolation $message */
+            foreach ($errors as $message) {
+                $messages[] = [
+                    'property' => $message->getPropertyPath(),
+                    'value'    => $message->getInvalidValue(),
+                    'message'  => $message->getConstraint()->message ?? $message->getMessage(),
+                ];
+            }
+            $this->json([
+                'errors' => $messages,
+            ]);
+        }
+
+        return $this->json($task);
     }
 
 }

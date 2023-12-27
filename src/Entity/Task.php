@@ -29,7 +29,7 @@ class Task
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Groups(['read', 'write'])]
-    private ?string $description = null;
+    public ?string $description = null;
 
     #[ORM\Column(type: Types::STRING, length: 100)]
     #[Groups(['read', 'write'])]
