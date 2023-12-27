@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
+use App\Requests\CreateTaskRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,18 @@ class TaskManagerController extends AbstractController
     {
         $this->repository = $repository;
     }
+
+//    private function getErrorsBag(
+//        ConstraintViolationList $violationsList
+//    ): array {
+//        $output = [];
+//        foreach ($violationsList as $violation) {
+//            $output[$violation->getPropertyPath()][]
+//                = $violation->getConstraint()->message;
+//        }
+//
+//        return $output;
+//    }
 
     #[Route('/api/tasks', name: 'list_api_task_manager', methods: ['GET'])]
     public function index(Request $request): Response
@@ -46,24 +59,22 @@ class TaskManagerController extends AbstractController
     }
 
     #[Route('/api/tasks', name: 'create_api_task_manager', methods: ['POST'])]
-    public function store(Request $request, ValidatorInterface $validator)
+    public function store(CreateTaskRequest $request, ValidatorInterface $validator)
     {
-        $data = $request->request->all();
+        $errors = $request->validate();
+        if (count($errors['errors'])) {
+            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+        }
+
         $task = $this->repository->createTask(
-            $data['title'],
-            $data['status'],
-            $data['description'] ?? null,
-            $data['due_date'],
-            is_array($data['tags']) ? $data['tags'] : []
+            $request->title,
+            $request->status,
+            $request->description,
+            $request->due_date,
+            $request->tags
         );
 
-        $errors = $validator->validate($task);
 
-        if ($errors->count()) {
-            return (new Response((string)$errors))->setStatusCode(
-                Response::HTTP_BAD_REQUEST
-            );
-        }
 
         $this->repository->save($task);
 

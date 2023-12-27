@@ -12,7 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
  * @method Task|null findOneBy(array $criteria, array $orderBy = null)
  * @method Task[]    findAll()
- * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit =null, $offset = null)
+ * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit =
+ *         null, $offset = null)
  */
 class TaskRepository extends ServiceEntityRepository
 {
@@ -35,14 +36,20 @@ class TaskRepository extends ServiceEntityRepository
         array   $tags = []
     ): Task {
         $task = new Task();
-        $task->title = $title;
+        $task->title = trim($title);
         $task->setDescription($description);
         $task->tags = $tags;
-        $task->status = $status;
-        $task->due_date = \DateTime::createFromFormat('Y-m-d', $dueDate);
+        $task->status = trim($status);
+        $task->due_date = $this->convertDateTime(trim($dueDate));
 
-        dd($task->due_date);
         return $task;
+    }
+
+    private function convertDateTime(string $date): ?\DateTime
+    {
+        $format = str_contains($date, ':') ? 'Y-m-d H:i:s' : 'Y-m-d';
+
+        return \DateTime::createFromFormat($format, $date) ?? null;
     }
 
     public function save(Task $task)

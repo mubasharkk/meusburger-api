@@ -35,7 +35,7 @@ class Task
     #[Groups(['read', 'write'])]
     #[Assert\NotNull]
     #[Assert\Choice(
-        choices: ['to-do', 'in-progress', 'completed', 'done', 'overdue'],
+        callback: 'getStatuses',
         message: 'Choice a valid status.'
     )]
     public string $status;
@@ -69,6 +69,11 @@ class Task
     public function setDescription(string $description)
     {
         /** @note: do some sanitization here! * */
-        $this->description = htmlentities($description);
+        $this->description = htmlentities(trim($description));
+    }
+
+    public static function getStatuses(): array
+    {
+        return ['to-do', 'in-progress', 'completed', 'done', 'overdue'];
     }
 }
