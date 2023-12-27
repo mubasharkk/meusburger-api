@@ -24,29 +24,16 @@ class TaskManagerController extends AbstractController
         $this->repository = $repository;
     }
 
-//    private function getErrorsBag(
-//        ConstraintViolationList $violationsList
-//    ): array {
-//        $output = [];
-//        foreach ($violationsList as $violation) {
-//            $output[$violation->getPropertyPath()][]
-//                = $violation->getConstraint()->message;
-//        }
-//
-//        return $output;
-//    }
-
     #[Route('/api/tasks', name: 'list_api_task_manager', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $criteria = [
-            'status' => $request->query->get('status'),
-            'tags'   => $request->query->get('tags'),
-        ];
+        $data = $request->query->all();
 
         $tasks = $this->repository->getByFilter(
-            array_filter($criteria),
-            $request->query->get('limit', 50)
+            $data['search'] ?? null,
+            $data['status'] ?? null,
+            $data['limit'] ?? 5,
+            $data['page'] ?? 1,
         );
 
         return $this->json($tasks);
@@ -59,8 +46,10 @@ class TaskManagerController extends AbstractController
     }
 
     #[Route('/api/tasks', name: 'create_api_task_manager', methods: ['POST'])]
-    public function store(CreateTaskRequest $request, ValidatorInterface $validator)
-    {
+    public function store(
+        CreateTaskRequest $request,
+        ValidatorInterface $validator
+    ) {
         $errors = $request->validate();
         if (count($errors['errors'])) {
             return $this->json($errors, Response::HTTP_BAD_REQUEST);
@@ -73,8 +62,6 @@ class TaskManagerController extends AbstractController
             $request->due_date,
             $request->tags
         );
-
-
 
         $this->repository->save($task);
 

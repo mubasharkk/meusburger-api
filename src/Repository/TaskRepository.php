@@ -12,8 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
  * @method Task|null findOneBy(array $criteria, array $orderBy = null)
  * @method Task[]    findAll()
- * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit =
- *         null, $offset = null)
+ * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TaskRepository extends ServiceEntityRepository
 {
@@ -23,9 +22,54 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function getByFilter(array $criteria, int $limit = 50)
-    {
-        return $this->findBy($criteria, ['created_at' => 'DESC'], $limit);
+    public function getByFilter(
+        ?string $search = null,
+        ?string $status = null,
+        int     $limit = 50,
+        int     $page = 0,
+    ) {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->select(
+            't'
+        )->from(Task::class, 't');
+
+        if ($status) {
+            $queryBuilder = $queryBuilder->andWhere(
+                $queryBuilder->expr()->eq(
+                    't.status',
+                    $queryBuilder->expr()->literal($status)
+                )
+            );
+        }
+
+        if ($search) {
+            $queryBuilder = $queryBuilder->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like(
+                        't.title',
+                        $queryBuilder->expr()->literal("%{$search}%")
+                    ),
+                    $queryBuilder->expr()->like(
+                        't.description',
+                        $queryBuilder->expr()->literal("%{$search}%")
+                    )
+                )
+            );
+        }
+
+        // json search doctrine not availble
+        //foreach ($tags as $tag) {
+        //    $queryBuilder->andWhere("(t.tags)::jsonb ? '{$tag}'");
+        //}
+
+        $page = $page < 1 ? 0 : $page;
+
+        $queryBuilder = $queryBuilder
+            ->orderBy('t.created_at', 'DESC')
+            ->setFirstResult($page ? $page * $limit - 1: 0)
+            ->setMaxResults($limit);
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
     }
 
     public function createTask(
@@ -63,29 +107,4 @@ class TaskRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($task);
         $this->getEntityManager()->flush();
     }
-
-    //    /**
-    //     * @return Task[] Returns an array of Task objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Task
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
