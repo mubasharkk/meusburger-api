@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "0e510af9-6d34-4e97-aedc-dcfba3c3e459",
+		"name": "Meusburger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost/api/tasks/",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"tasks",
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "done",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "tags[]",
+							"value": "dev",
+							"disabled": true
+						},
+						{
+							"key": "search",
+							"value": "repudiandae",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/tasks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": " Repellat. Est laborum non repudiandae. ",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Do, ad! Labore officia, ornare! Enim? In aenean fringilla fames aliquam id eu",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "to-do",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "tags[]",
+							"value": "dev",
+							"type": "text"
+						},
+						{
+							"key": "tags[]",
+							"value": "IT",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "due_date",
+							"value": "2024-04-20",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "in-progress",
+							"type": "default",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "completed",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/api/tasks",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/tasks/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost/api/tasks/018ca894-2355-70b8-8214-0e4d046d620a",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"018ca894-2355-70b8-8214-0e4d046d620a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/tasks/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost/api/tasks/018ca894-2355-70b8-8214-0e4d046d620a",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"018ca894-2355-70b8-8214-0e4d046d620a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/tasks/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "tags[]",
+							"value": "HR",
+							"type": "default"
+						},
+						{
+							"key": "title",
+							"value": "Ea tenetur montes aspernatur irure habitasse? Aliqua",
+							"type": "default"
+						},
+						{
+							"key": "tags[]",
+							"value": "Support",
+							"type": "default"
+						},
+						{
+							"key": "description",
+							"value": "Ea tenetur montes aspernatur irure habitasse? Aliqua, fermentum porta! Consequatur occaecat parturient, incidunt quia. Mauris blandit dignissimos quidem scelerisque vitae quae eligendi, facere vitae, placeat sequi mi eligendi natus illum, vehicula veniam parturient consectetuer! Vulputate, expedita? Cubilia provident rhoncus, officiis aut arcu, curae deleniti! Commodi quas commodi praesentium, aliqua? Maiores magnis sociis tempore facilisi, imperdiet repellendus sodales turpis elit accumsan? Porro quidem molestias dictum felis ante, repellendus atque risus, esse. Quam accumsan wisi dictum nonummy, veritatis similique bibendum litora pellentesque quod odio exercitationem cupiditate nihil occaecat omnis, risus aliqua pellentesque? Repellat, eum eligendi rutrum sagittis doloremque sem. Dolorem est commodo.",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/tasks/018cabdc-0630-7cd1-8ca0-a2975db3f565",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"tasks",
+						"018cabdc-0630-7cd1-8ca0-a2975db3f565"
+					],
+					"query": [
+						{
+							"key": "tags",
+							"value": "asdadas",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
