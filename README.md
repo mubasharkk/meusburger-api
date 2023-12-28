@@ -4,13 +4,18 @@
 
 ## Notes:
 * I have spent around 16+ hours looking into the [Spryker documentation](https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/glue-api-guides.html).
-* I have used the latest [spryker-B2C](https://github.com/mubasharkk/meusburger-api) (my own repo) repository with docker. 
+* I have used the latest [spryker-B2C](https://github.com/mubasharkk/meusburger) (my own repo) repository with docker. 
 
 They have updated the architecture with new [Decoupled Glue API](https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/decoupled-glue-api.html) but all the related documentation haven't been updated and therefore the implementation and [How Tos](https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/introduction-tutorials/tutorial-hello-world-spryker-commerce-os.html) are outdated. 
 There isn't any other source to learn with Sprker, unfortunately. 
 Moreover, the documentation is also a bigger to look into all aspect of it. 
 
 Eg. [Glue Api](https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/decoupled-glue-api.html#authentication-servers) has recently updated in `July 21,2023` and [Zed Rest API](https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/advanced-tutorials/tutorial-zed-rest-api.html) was last updated on `June 16, 2021`.
+
+#### As Example:
+The Plugin provider is using deprecated functions from Version 5. 
+
+<img src="./Screenshot.png"/>
 
 ## Description
 
