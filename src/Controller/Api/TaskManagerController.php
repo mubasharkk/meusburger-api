@@ -32,7 +32,7 @@ class TaskManagerController extends AbstractController
         $tasks = $this->repository->getByFilter(
             $data['search'] ?? null,
             $data['status'] ?? null,
-            $data['limit'] ?? 5,
+            $data['limit'] ?? 50,
             $data['page'] ?? 1,
         );
 
@@ -63,14 +63,14 @@ class TaskManagerController extends AbstractController
 
         $this->repository->save($task);
 
-        return $this->json($task);
+        return $this->json($task, Response::HTTP_CREATED);
     }
 
     #[Route('/api/tasks/{id}', name: 'delete_api_task_manager', methods: ['DELETE'])]
     public function destroy(Task $task)
     {
         $this->repository->delete($task);
-        $this->json([]);
+        return new Response();
     }
 
     #[Route('/api/tasks/{id}', name: 'update_api_task_manager', methods: ['PUT'])]
@@ -101,10 +101,10 @@ class TaskManagerController extends AbstractController
             }
             $this->json([
                 'errors' => $messages,
-            ]);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($task);
+        return $this->json($task, Response::HTTP_CREATED);
     }
 
 }
