@@ -12,6 +12,8 @@ Moreover, the documentation is also a bigger to look into all aspect of it.
 
 Eg. [Glue Api](https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/decoupled-glue-api.html#authentication-servers) has recently updated in `July 21,2023` and [Zed Rest API](https://docs.spryker.com/docs/scos/dev/tutorials-and-howtos/advanced-tutorials/tutorial-zed-rest-api.html) was last updated on `June 16, 2021`.
 
+I got a good understand of the architecture (as defined [here](https://docs.spryker.com/docs/scos/dev/glue-api-guides/202311.0/decoupled-glue-api.html#authentication-servers)) but without a proper documentation I am unable to dive deeper in to the code.
+
 #### As Example:
 The Plugin provider is using deprecated functions from Version 5. 
 
